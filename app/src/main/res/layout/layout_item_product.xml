@@ -31,9 +31,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
                 <Button
+                    android:textStyle="bold"
+                    android:minHeight="@dimen/_30sdp"
+                    android:minWidth="@dimen/_40sdp"
+                    android:textAllCaps="false"
+                    android:background="@drawable/bg_button_buy"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentEnd="true"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     android:textSize="@dimen/_12ssp"
                     android:fontFamily="@font/quicksanfont"
                     android:text="Buy"
