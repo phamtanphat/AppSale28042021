@@ -71,7 +71,7 @@ public class Product {
         listProduct.add(new Product(7 , R.drawable.hinh_vivo_y20s,"Điện thoại Vivo Y20s",4990000,8.0f));
         listProduct.add(new Product(8 , R.drawable.hinh_vivo_y51,"Điện thoại Vivo Y51",6290000,11.0f));
         listProduct.add(new Product(9 , R.drawable.hinh_xiaomi_11_lite,"Điện thoại Xiaomi Mi 11 Lite",7990000,11.0f));
-        listProduct.add(new Product(10 , R.drawable.hinh_xiaomi_redmi_9t,"Điện thoại Xiaomi Redmi 9T",4990000,16.0f));
+        listProduct.add(new Product(10 , R.drawable.hinh_xiaomi_redmi_9t,"Điện thoại Xiaomi Redmi 9T",4990000,0.0f));
 
         return listProduct;
     }

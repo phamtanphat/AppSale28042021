@@ -15,6 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.appsale28042021.R;
 import com.example.appsale28042021.model.Product;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.List;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
@@ -37,7 +39,18 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
     @Override
     public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
+        Product product = productList.get(position);
 
+        if (product.getSaleOf() <= 0){
+            holder.imgIconSale.setVisibility(View.GONE);
+        }else{
+            holder.imgIconSale.setVisibility(View.VISIBLE);
+        }
+
+        holder.imgProduct.setImageResource(product.getImage());
+        NumberFormat formatter = new DecimalFormat("#,###");
+        holder.txtPrice.setText(formatter.format(product.getPrice()));
+        holder.txtName.setText(product.getName());
     }
 
     @Override
