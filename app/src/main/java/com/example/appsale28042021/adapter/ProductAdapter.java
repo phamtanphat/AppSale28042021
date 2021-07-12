@@ -1,6 +1,9 @@
 package com.example.appsale28042021.adapter;
 
+import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -10,8 +13,37 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appsale28042021.R;
+import com.example.appsale28042021.model.Product;
 
-public class ProductAdapter {
+import java.util.List;
+
+public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
+
+    List<Product> productList;
+    Context context;
+
+    public ProductAdapter(List<Product> productList, Context context) {
+        this.productList = productList;
+        this.context = context;
+    }
+
+    @NonNull
+    @Override
+    public ProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        LayoutInflater layoutInflater = LayoutInflater.from(context);
+        View view = layoutInflater.inflate(R.layout.layout_item_product,parent,false);
+        return new ProductViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
+
+    }
+
+    @Override
+    public int getItemCount() {
+        return productList.size();
+    }
 
     class ProductViewHolder extends RecyclerView.ViewHolder{
         CardView cardView;
