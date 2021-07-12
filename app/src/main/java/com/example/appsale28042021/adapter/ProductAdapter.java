@@ -23,10 +23,14 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
     List<Product> productList;
     Context context;
+    int width;
+    int height;
 
-    public ProductAdapter(List<Product> productList, Context context) {
+    public ProductAdapter(List<Product> productList, Context context , int width , int height) {
         this.productList = productList;
         this.context = context;
+        this.width = width;
+        this.height = height;
     }
 
     @NonNull
@@ -34,6 +38,13 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     public ProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         View view = layoutInflater.inflate(R.layout.layout_item_product,parent,false);
+
+        RecyclerView.LayoutParams layoutParams = (RecyclerView.LayoutParams) view.getLayoutParams();
+        layoutParams.width = (int) (width * 0.45);
+        layoutParams.height = (int) (height * 0.35);
+        layoutParams.setMargins((int) (width * 0.025) , 0 , 0 ,(int) (width * 0.05));
+
+        view.setLayoutParams(layoutParams);
         return new ProductViewHolder(view);
     }
 
@@ -41,12 +52,14 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
         Product product = productList.get(position);
 
+
         if (product.getSaleOf() <= 0){
             holder.imgIconSale.setVisibility(View.GONE);
         }else{
             holder.imgIconSale.setVisibility(View.VISIBLE);
         }
 
+        holder.imgProduct.setPadding((int) (width * 0.03),(int) (width * 0.03),(int) (width * 0.03),(int) (width * 0.03));
         holder.imgProduct.setImageResource(product.getImage());
         NumberFormat formatter = new DecimalFormat("#,###");
         holder.txtPrice.setText(formatter.format(product.getPrice()));

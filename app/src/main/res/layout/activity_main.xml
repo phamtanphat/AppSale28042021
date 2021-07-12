@@ -4,8 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#D1D1D1"
     tools:context=".activity.MainActivity">
 
-    <include layout="@layout/layout_item_product"/>
+    <androidx.recyclerview.widget.RecyclerView
+        tools:listitem="@layout/layout_item_product"
+        app:spanCount="2"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        android:id="@+id/recyclerviewProduct"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
 </LinearLayout>
