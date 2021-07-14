@@ -9,6 +9,7 @@
     tools:context=".activity.MainActivity">
 
     <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbarProduct"
         android:layout_marginBottom="@dimen/_5sdp"
         app:title="Product"
         app:titleTextColor="@color/white"
