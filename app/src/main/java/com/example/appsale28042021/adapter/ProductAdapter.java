@@ -1,6 +1,7 @@
 package com.example.appsale28042021.adapter;
 
 import android.content.Context;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,7 +35,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     int width;
     int height;
 
-    public ProductAdapter(List<Product> productList, Context context , int width , int height) {
+    public ProductAdapter(List<Product> productList, Context context, int width, int height) {
         this.productList = productList;
         productListOld = new ArrayList<>();
         productListOld.addAll(productList);
@@ -47,12 +48,12 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     @Override
     public ProductViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(context);
-        View view = layoutInflater.inflate(R.layout.layout_item_product,parent,false);
+        View view = layoutInflater.inflate(R.layout.layout_item_product, parent, false);
 
         GridLayoutManager.LayoutParams layoutParams = (GridLayoutManager.LayoutParams) view.getLayoutParams();
         layoutParams.width = (int) (width * 0.45);
         layoutParams.height = (int) (height * 0.35);
-        layoutParams.setMargins((int) (width * 0.025) , 0 , 0 ,(int) (width * 0.05));
+        layoutParams.setMargins((int) (width * 0.025), 0, 0, (int) (width * 0.05));
 
         view.setLayoutParams(layoutParams);
         return new ProductViewHolder(view);
@@ -63,13 +64,13 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         Product product = productList.get(position);
 
 
-        if (product.getSaleOf() <= 0){
+        if (product.getSaleOf() <= 0) {
             holder.imgIconSale.setVisibility(View.GONE);
-        }else{
+        } else {
             holder.imgIconSale.setVisibility(View.VISIBLE);
         }
 
-        holder.imgProduct.setPadding((int) (width * 0.03),(int) (width * 0.03),(int) (width * 0.03),(int) (width * 0.03));
+        holder.imgProduct.setPadding((int) (width * 0.03), (int) (width * 0.03), (int) (width * 0.03), (int) (width * 0.03));
         holder.imgProduct.setImageResource(product.getImage());
         NumberFormat formatter = new DecimalFormat("#,###");
         holder.txtPrice.setText(formatter.format(product.getPrice()) + " Đ");
@@ -87,12 +88,13 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             @Override
             protected FilterResults performFiltering(CharSequence charSequence) {
                 String strSearch = charSequence.toString();
-                if (strSearch.isEmpty()){
+
+                if (strSearch.isEmpty()) {
                     productList = productListOld;
-                }else{
+                } else {
                     List<Product> productFilter = new ArrayList<>();
-                    for (Product product : productListOld){
-                        if (product.getName().toLowerCase().contains(strSearch.toLowerCase())){
+                    for (Product product : productListOld) {
+                        if (product.getName().toLowerCase().contains(strSearch.toLowerCase())) {
                             productFilter.add(product);
                         }
                     }
@@ -111,11 +113,11 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         };
     }
 
-    class ProductViewHolder extends RecyclerView.ViewHolder{
+    class ProductViewHolder extends RecyclerView.ViewHolder {
         CardView cardView;
-        ImageView imgProduct , imgIconSale;
+        ImageView imgProduct, imgIconSale;
         Button btnBuy;
-        TextView txtName,txtPrice;
+        TextView txtName, txtPrice;
 
         public ProductViewHolder(@NonNull View itemView) {
             super(itemView);

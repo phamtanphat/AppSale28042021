@@ -3,6 +3,7 @@ package com.example.appsale28042021.activity;
 import android.app.SearchManager;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.DisplayMetrics;
 import android.view.Menu;
 
@@ -24,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     ProductAdapter mProductAdapter;
     Toolbar mToolbar;
     SearchView mSearchView;
+    CountDownTimer mCountDownTimer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,7 +66,22 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                mProductAdapter.getFilter().filter(newText);
+                if (mCountDownTimer != null){
+                    mCountDownTimer.cancel();
+                    mCountDownTimer = null;
+                }
+                mCountDownTimer = new CountDownTimer(2500 , 2000) {
+                    @Override
+                    public void onTick(long l) {
+
+                    }
+
+                    @Override
+                    public void onFinish() {
+                        mProductAdapter.getFilter().filter(newText);
+                    }
+                };
+                mCountDownTimer.start();
                 return true;
             }
         });
