@@ -66,7 +66,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         holder.imgProduct.setPadding((int) (width * 0.03),(int) (width * 0.03),(int) (width * 0.03),(int) (width * 0.03));
         holder.imgProduct.setImageResource(product.getImage());
         NumberFormat formatter = new DecimalFormat("#,###");
-        holder.txtPrice.setText(formatter.format(product.getPrice()));
+        holder.txtPrice.setText(formatter.format(product.getPrice()) + " Đ");
         holder.txtName.setText(product.getName());
     }
 

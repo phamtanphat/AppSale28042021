@@ -5,7 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#D1D1D1"
+    android:orientation="vertical"
     tools:context=".activity.MainActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:layout_marginBottom="@dimen/_5sdp"
+        app:title="Product"
+        app:titleTextColor="@color/white"
+        android:background="#A6423F"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"/>
 
     <androidx.recyclerview.widget.RecyclerView
         tools:listitem="@layout/layout_item_product"
