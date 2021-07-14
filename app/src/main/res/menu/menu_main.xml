@@ -11,5 +11,10 @@
 
 <!--    custom layout cart-->
 
+    <item android:id="@+id/itemCart"
+        app:showAsAction="always"
+        android:actionLayout="@layout/layout_menu_cart"
+        android:title="Cart"/>
+
 
 </menu>
