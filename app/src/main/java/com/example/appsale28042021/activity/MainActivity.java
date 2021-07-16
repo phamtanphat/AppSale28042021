@@ -5,7 +5,9 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Menu;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
@@ -14,6 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appsale28042021.R;
 import com.example.appsale28042021.adapter.ProductAdapter;
+import com.example.appsale28042021.interfaces.OnItemClickAdapter;
+import com.example.appsale28042021.model.Cart;
 import com.example.appsale28042021.model.Product;
 
 import java.util.List;
@@ -46,6 +50,13 @@ public class MainActivity extends AppCompatActivity {
         mProductAdapter = new ProductAdapter(mListProduct, this, width , height);
 
         mRcvProduct.setAdapter(mProductAdapter);
+
+        mProductAdapter.setOnItemClickAdapter(new OnItemClickAdapter() {
+            @Override
+            public void onClick(int position) {
+//                Toast.makeText(MainActivity.this, mListProduct.get(position).getName(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override

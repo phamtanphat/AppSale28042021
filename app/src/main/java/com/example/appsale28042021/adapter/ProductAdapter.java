@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appsale28042021.R;
+import com.example.appsale28042021.interfaces.OnItemClickAdapter;
 import com.example.appsale28042021.model.Product;
 
 import java.text.DecimalFormat;
@@ -34,6 +35,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     Context context;
     int width;
     int height;
+    OnItemClickAdapter onItemClickAdapter;
 
     public ProductAdapter(List<Product> productList, Context context, int width, int height) {
         this.productList = productList;
@@ -128,6 +130,19 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             btnBuy = itemView.findViewById(R.id.buttonBuy);
             txtName = itemView.findViewById(R.id.textViewName);
             txtPrice = itemView.findViewById(R.id.textViewPrice);
+
+            btnBuy.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (onItemClickAdapter != null){
+                        onItemClickAdapter.onClick(getAdapterPosition());
+                    }
+                }
+            });
         }
+    }
+
+    public void setOnItemClickAdapter(OnItemClickAdapter onItemClickAdapter){
+        this.onItemClickAdapter = onItemClickAdapter;
     }
 }
