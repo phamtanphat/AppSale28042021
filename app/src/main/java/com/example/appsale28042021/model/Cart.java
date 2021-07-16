@@ -27,20 +27,14 @@ public class Cart {
 
         if (listCarts != null){
             if (listCarts.size() > 0){
-                int count = 0;
                 for (int i = 0; i <listCarts.size() ; i++) {
                     if (listCarts.get(i).getProduct().getId() == elementCart.getProduct().getId()){
                         listCarts.get(i).setQuantity(listCarts.get(i).getQuantity() + 1);
-                        count++;
-                        break;
+                        return;
                     }
                 }
-                if(count == 0){
-                    listCarts.add(elementCart);
-                }
-            }else{
-                listCarts.add(elementCart);
             }
+            listCarts.add(elementCart);
         }
 
     }
