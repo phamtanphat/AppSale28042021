@@ -54,7 +54,13 @@ public class MainActivity extends AppCompatActivity {
         mProductAdapter.setOnItemClickAdapter(new OnItemClickAdapter() {
             @Override
             public void onClick(int position) {
-//                Toast.makeText(MainActivity.this, mListProduct.get(position).getName(), Toast.LENGTH_SHORT).show();
+                Cart.getInstance().updateCart(mListProduct.get(position));
+
+                for (int i = 0; i < Cart.getInstance().getCarts().size(); i++) {
+                    Log.d("BBB",Cart.getInstance().getCarts().get(i).getProduct().toString());
+                    Log.d("BBB","Số lượng sản phẩm " + Cart.getInstance().getCarts().get(i).getQuantity() + "");
+                    Log.d("BBB", "===================================================");
+                }
             }
         });
     }

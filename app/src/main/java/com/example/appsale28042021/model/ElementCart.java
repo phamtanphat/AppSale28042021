@@ -25,4 +25,6 @@ public class ElementCart {
     public void setProduct(Product product) {
         this.product = product;
     }
+
+
 }
