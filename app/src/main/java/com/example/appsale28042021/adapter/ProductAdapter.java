@@ -39,9 +39,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     int width;
     int height;
     OnItemClickAdapter onItemClickAdapter;
-    Handler handler1, handler2;
-    long start = 0;
-    long end = 0;
+    Handler handler1;
     boolean isPressed = false;
 
     public ProductAdapter(List<Product> productList, Context context, int width, int height) {
@@ -143,38 +141,20 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             btnBuy.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View view, MotionEvent motionEvent) {
-                    end = 0;
-                    start = 0;
                     switch (motionEvent.getAction()) {
                         case MotionEvent.ACTION_DOWN:
-                            start = System.currentTimeMillis();
                             isPressed = true;
                             break;
                         case MotionEvent.ACTION_UP:
                         default:
-                            end = System.currentTimeMillis();
                             isPressed = false;
                     }
-
                     handler1 = new Handler();
                     handler1.postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             if (isPressed) {
-                                if (end - start > 800) {
-                                    handler2 = new Handler();
-                                    handler2.postDelayed(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            onItemClickAdapter.onClick(getAdapterPosition());
-                                            if (handler2 != null) {
-                                                handler2.postDelayed(this, 500);
-                                            }
-                                        }
-                                    }, 1000);
-                                } else {
-                                    onItemClickAdapter.onClick(getAdapterPosition());
-                                }
+                                onItemClickAdapter.onClick(getAdapterPosition());
                                 if (handler1 != null) {
                                     handler1.postDelayed(this, 100);
                                 }
@@ -182,9 +162,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                             } else {
                                 if (handler1 != null) {
                                     handler1 = null;
-                                }
-                                if (handler2 != null) {
-                                    handler2 = null;
                                 }
                             }
                         }
