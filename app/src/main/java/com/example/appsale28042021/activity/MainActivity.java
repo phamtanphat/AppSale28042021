@@ -7,6 +7,10 @@ import android.os.CountDownTimer;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,6 +22,7 @@ import com.example.appsale28042021.R;
 import com.example.appsale28042021.adapter.ProductAdapter;
 import com.example.appsale28042021.interfaces.OnItemClickAdapter;
 import com.example.appsale28042021.model.Cart;
+import com.example.appsale28042021.model.ElementCart;
 import com.example.appsale28042021.model.Product;
 
 import java.util.List;
@@ -30,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
     Toolbar mToolbar;
     SearchView mSearchView;
     CountDownTimer mCountDownTimer;
+    TextView mTvCount;
+    RelativeLayout mRelativeBackgroundCount;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,12 +62,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(int position) {
                 Cart.getInstance().updateCart(mListProduct.get(position));
-
-                for (int i = 0; i < Cart.getInstance().getCarts().size(); i++) {
-                    Log.d("BBB",Cart.getInstance().getCarts().get(i).getProduct().toString());
-                    Log.d("BBB","Số lượng sản phẩm " + Cart.getInstance().getCarts().get(i).getQuantity() + "");
-                    Log.d("BBB", "===================================================");
-                }
+                setUpBadge();
             }
         });
     }
@@ -102,6 +104,33 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+
+        // Ánh xạ layout menu
+        MenuItem menuItem = menu.findItem(R.id.itemCart);
+
+        View actionView = menuItem.getActionView();
+
+        mTvCount = actionView.findViewById(R.id.textViewCountBadge);
+        mRelativeBackgroundCount = actionView.findViewById(R.id.relativeBadge);
+        setUpBadge();
+
         return super.onCreateOptionsMenu(menu);
+    }
+
+    private void setUpBadge() {
+        if(mTvCount != null){
+            if(Cart.getInstance().getCarts().size() > 0){
+                int count = 0;
+                mTvCount.setVisibility(View.VISIBLE);
+                mRelativeBackgroundCount.setVisibility(View.VISIBLE);
+                for (ElementCart elementCart: Cart.getInstance().getCarts()) {
+                    count += elementCart.getQuantity();
+                }
+                mTvCount.setText(String.valueOf(count));
+            }else{
+                mTvCount.setVisibility(View.GONE);
+                mRelativeBackgroundCount.setVisibility(View.GONE);
+            }
+        }
     }
 }
