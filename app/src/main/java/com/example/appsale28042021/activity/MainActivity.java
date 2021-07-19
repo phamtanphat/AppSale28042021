@@ -56,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
 
         mProductAdapter = new ProductAdapter(mListProduct, this, width , height);
 
+        mRcvProduct.setHasFixedSize(true);
         mRcvProduct.setAdapter(mProductAdapter);
 
         mProductAdapter.setOnItemClickAdapter(new OnItemClickAdapter() {

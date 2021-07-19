@@ -1,8 +1,11 @@
 package com.example.appsale28042021.adapter;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -36,6 +39,10 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     int width;
     int height;
     OnItemClickAdapter onItemClickAdapter;
+    Handler handler1, handler2;
+    long start = 0;
+    long end = 0;
+    boolean isPressed = false;
 
     public ProductAdapter(List<Product> productList, Context context, int width, int height) {
         this.productList = productList;
@@ -121,6 +128,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         Button btnBuy;
         TextView txtName, txtPrice;
 
+        @SuppressLint("ClickableViewAccessibility")
         public ProductViewHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -131,18 +139,64 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             txtName = itemView.findViewById(R.id.textViewName);
             txtPrice = itemView.findViewById(R.id.textViewPrice);
 
-            btnBuy.setOnClickListener(new View.OnClickListener() {
+
+            btnBuy.setOnTouchListener(new View.OnTouchListener() {
                 @Override
-                public void onClick(View view) {
-                    if (onItemClickAdapter != null){
-                        onItemClickAdapter.onClick(getAdapterPosition());
+                public boolean onTouch(View view, MotionEvent motionEvent) {
+                    end = 0;
+                    start = 0;
+                    switch (motionEvent.getAction()) {
+                        case MotionEvent.ACTION_DOWN:
+                            start = System.currentTimeMillis();
+                            isPressed = true;
+                            break;
+                        case MotionEvent.ACTION_UP:
+                        default:
+                            end = System.currentTimeMillis();
+                            isPressed = false;
                     }
+
+                    handler1 = new Handler();
+                    handler1.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (isPressed) {
+                                if (end - start > 800) {
+                                    handler2 = new Handler();
+                                    handler2.postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            onItemClickAdapter.onClick(getAdapterPosition());
+                                            if (handler2 != null) {
+                                                handler2.postDelayed(this, 500);
+                                            }
+                                        }
+                                    }, 1000);
+                                } else {
+                                    onItemClickAdapter.onClick(getAdapterPosition());
+                                }
+                                if (handler1 != null) {
+                                    handler1.postDelayed(this, 100);
+                                }
+
+                            } else {
+                                if (handler1 != null) {
+                                    handler1 = null;
+                                }
+                                if (handler2 != null) {
+                                    handler2 = null;
+                                }
+                            }
+                        }
+                    }, 100);
+
+                    return false;
                 }
             });
         }
     }
 
-    public void setOnItemClickAdapter(OnItemClickAdapter onItemClickAdapter){
+    public void setOnItemClickAdapter(OnItemClickAdapter onItemClickAdapter) {
         this.onItemClickAdapter = onItemClickAdapter;
     }
 }
