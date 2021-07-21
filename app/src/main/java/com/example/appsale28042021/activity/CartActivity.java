@@ -10,7 +10,11 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.appsale28042021.R;
+import com.example.appsale28042021.adapter.CartAdapter;
 import com.example.appsale28042021.model.Cart;
+import com.example.appsale28042021.model.ElementCart;
+
+import java.util.List;
 
 public class CartActivity extends AppCompatActivity {
 
@@ -18,7 +22,9 @@ public class CartActivity extends AppCompatActivity {
     RecyclerView mRecyclerView;
     TextView mTvTitleTotal,mTvPrice;
     Button mBtnPayment;
-
+    RecyclerView mRcvCart;
+    CartAdapter mCartAdapter;
+    List<ElementCart> mListCart;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,5 +47,11 @@ public class CartActivity extends AppCompatActivity {
             mBtnPayment.setVisibility(View.VISIBLE);
             mRecyclerView.setVisibility(View.VISIBLE);
         }
+
+        mListCart = Cart.getInstance().getCarts();
+        mCartAdapter = new CartAdapter(mListCart);
+
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setAdapter(mCartAdapter);
     }
 }

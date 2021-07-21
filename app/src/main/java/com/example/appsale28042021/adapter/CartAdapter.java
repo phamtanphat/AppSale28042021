@@ -12,18 +12,24 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chauthai.swipereveallayout.SwipeRevealLayout;
+import com.chauthai.swipereveallayout.ViewBinderHelper;
 import com.example.appsale28042021.R;
 import com.example.appsale28042021.model.ElementCart;
 import com.example.appsale28042021.model.Product;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.List;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder> {
 
     List<ElementCart> mCartList;
 
+    private ViewBinderHelper mViewBinderHelper;
+
     public CartAdapter(List<ElementCart> mCartList) {
         this.mCartList = mCartList;
+        mViewBinderHelper = new ViewBinderHelper();
     }
 
     @NonNull
@@ -39,8 +45,24 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         ElementCart elementCart = mCartList.get(position);
         Product product = elementCart.getProduct();
 
+        mViewBinderHelper.bind(holder.swipeRevealLayout, String.valueOf(product.getId()));
+
         holder.imgCart.setImageResource(product.getImage());
-//        holder
+        holder.tvName.setText(product.getName());
+        NumberFormat formatter = new DecimalFormat("#,###");
+        if (product.getSaleOf() > 0){
+            holder.tvPrice.setText(formatter.format((product.getPrice() * ((100 - product.getSaleOf()) / 100) )));
+            holder.tvPriceSale.setText("<del>abc</del>");
+        }else{
+            holder.tvPrice.setText(formatter.format((product.getPrice())));
+            holder.tvPriceSale.setVisibility(View.GONE);
+        }
+
+        if (elementCart.getQuantity() <= 1){
+            holder.imgDeCrease.setVisibility(View.GONE);
+        }
+
+
     }
 
     @Override
