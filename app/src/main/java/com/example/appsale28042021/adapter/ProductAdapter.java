@@ -39,8 +39,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     int width;
     int height;
     OnItemClickAdapter onItemClickAdapter;
-    Handler handler1;
-    boolean isPressed = false;
 
     public ProductAdapter(List<Product> productList, Context context, int width, int height) {
         this.productList = productList;
@@ -138,36 +136,12 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             txtPrice = itemView.findViewById(R.id.textViewPrice);
 
 
-            btnBuy.setOnTouchListener(new View.OnTouchListener() {
+            btnBuy.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public boolean onTouch(View view, MotionEvent motionEvent) {
-                    switch (motionEvent.getAction()) {
-                        case MotionEvent.ACTION_DOWN:
-                            isPressed = true;
-                            break;
-                        case MotionEvent.ACTION_UP:
-                        default:
-                            isPressed = false;
+                public void onClick(View view) {
+                    if (onItemClickAdapter != null){
+                        onItemClickAdapter.onClick(getAdapterPosition());
                     }
-                    handler1 = new Handler();
-                    handler1.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (isPressed) {
-                                onItemClickAdapter.onClick(getAdapterPosition());
-                                if (handler1 != null) {
-                                    handler1.postDelayed(this, 100);
-                                }
-
-                            } else {
-                                if (handler1 != null) {
-                                    handler1 = null;
-                                }
-                            }
-                        }
-                    }, 100);
-
-                    return false;
                 }
             });
         }
