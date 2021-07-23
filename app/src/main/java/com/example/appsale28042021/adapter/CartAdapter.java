@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.chauthai.swipereveallayout.SwipeRevealLayout;
 import com.chauthai.swipereveallayout.ViewBinderHelper;
 import com.example.appsale28042021.R;
+import com.example.appsale28042021.interfaces.OnItemClickCartAdapter;
 import com.example.appsale28042021.model.ElementCart;
 import com.example.appsale28042021.model.Product;
 
@@ -27,6 +28,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
     List<ElementCart> mCartList;
 
     private ViewBinderHelper mViewBinderHelper;
+    private OnItemClickCartAdapter mOnItemClickCartAdapter;
 
     public CartAdapter(List<ElementCart> mCartList) {
         this.mCartList = mCartList;
@@ -90,6 +92,38 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
             imgDeCrease = itemView.findViewById(R.id.imageViewDeCrease);
             swipeRevealLayout = itemView.findViewById(R.id.swipeLayout);
             layoutDelete = itemView.findViewById(R.id.layoutDelete);
+
+            imgDeCrease.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (mOnItemClickCartAdapter != null){
+                        mOnItemClickCartAdapter.decrement(getAdapterPosition());
+                    }
+                }
+            });
+
+            imgInCrease.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (mOnItemClickCartAdapter != null){
+                        mOnItemClickCartAdapter.increment(getAdapterPosition());
+                    }
+                }
+            });
+
+            layoutDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (mOnItemClickCartAdapter != null){
+                        mOnItemClickCartAdapter.delete(getAdapterPosition());
+                    }
+                }
+            });
+
+
         }
+    }
+    public void setOnItemClickCartAdapter(OnItemClickCartAdapter onItemClickCartAdapter){
+        mOnItemClickCartAdapter = onItemClickCartAdapter;
     }
 }
