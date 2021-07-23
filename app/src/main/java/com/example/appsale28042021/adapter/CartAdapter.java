@@ -52,6 +52,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
 
         holder.imgCart.setImageResource(product.getImage());
         holder.tvName.setText(product.getName());
+        holder.tvAmount.setText(elementCart.getQuantity() + "");
         NumberFormat formatter = new DecimalFormat("#,###");
         if (product.getSaleOf() > 0){
             holder.tvPrice.setText(formatter.format((product.getPrice() * ((100 - product.getSaleOf()) / 100) )) + " Đ");
@@ -63,6 +64,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
 
         if (elementCart.getQuantity() <= 1){
             holder.imgDeCrease.setVisibility(View.GONE);
+        }else{
+            holder.imgDeCrease.setVisibility(View.VISIBLE);
         }
 
 

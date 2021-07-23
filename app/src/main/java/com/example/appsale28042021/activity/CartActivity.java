@@ -71,17 +71,22 @@ public class CartActivity extends AppCompatActivity {
         mCartAdapter.setOnItemClickCartAdapter(new OnItemClickCartAdapter() {
             @Override
             public void increment(int position) {
-                Toast.makeText(CartActivity.this, "Increment " + position , Toast.LENGTH_SHORT).show();
+                ElementCart elementCart = Cart.getInstance().getCarts().get(position);
+                elementCart.setQuantity(elementCart.getQuantity() + 1);
+                mCartAdapter.notifyItemChanged(position);
             }
 
             @Override
             public void decrement(int position) {
-                Toast.makeText(CartActivity.this, "decrement " + position , Toast.LENGTH_SHORT).show();
+                ElementCart elementCart = Cart.getInstance().getCarts().get(position);
+                elementCart.setQuantity(elementCart.getQuantity() - 1);
+                mCartAdapter.notifyItemChanged(position);
             }
 
             @Override
             public void delete(int position) {
-                Toast.makeText(CartActivity.this, "delete " + position , Toast.LENGTH_SHORT).show();
+                Cart.getInstance().getCarts().remove(position);
+                mCartAdapter.notifyItemRemoved(position);
             }
         });
     }
