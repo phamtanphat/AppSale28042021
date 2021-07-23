@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.appsale28042021.R;
 import com.example.appsale28042021.adapter.CartAdapter;
@@ -16,6 +15,8 @@ import com.example.appsale28042021.interfaces.OnItemClickCartAdapter;
 import com.example.appsale28042021.model.Cart;
 import com.example.appsale28042021.model.ElementCart;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.List;
 
 public class CartActivity extends AppCompatActivity {
@@ -37,6 +38,10 @@ public class CartActivity extends AppCompatActivity {
         mTvTitleTotal = findViewById(R.id.textTitleTotal);
         mBtnPayment = findViewById(R.id.payment);
 
+
+        checkVisiblePayment();
+        updatePrice();
+
         setSupportActionBar(mToolbar);
 
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -49,17 +54,6 @@ public class CartActivity extends AppCompatActivity {
             }
         });
 
-        if (Cart.getInstance().getCarts() == null || Cart.getInstance().getCarts().size() == 0){
-            mTvTitleTotal.setVisibility(View.GONE);
-            mTvPrice.setVisibility(View.GONE);
-            mBtnPayment.setVisibility(View.GONE);
-            mRecyclerView.setVisibility(View.GONE);
-        }else{
-            mTvTitleTotal.setVisibility(View.VISIBLE);
-            mTvPrice.setVisibility(View.VISIBLE);
-            mBtnPayment.setVisibility(View.VISIBLE);
-            mRecyclerView.setVisibility(View.VISIBLE);
-        }
 
         mListCart = Cart.getInstance().getCarts();
         mCartAdapter = new CartAdapter(mListCart);
@@ -74,6 +68,8 @@ public class CartActivity extends AppCompatActivity {
                 ElementCart elementCart = Cart.getInstance().getCarts().get(position);
                 elementCart.setQuantity(elementCart.getQuantity() + 1);
                 mCartAdapter.notifyItemChanged(position);
+                checkVisiblePayment();
+                updatePrice();
             }
 
             @Override
@@ -81,13 +77,36 @@ public class CartActivity extends AppCompatActivity {
                 ElementCart elementCart = Cart.getInstance().getCarts().get(position);
                 elementCart.setQuantity(elementCart.getQuantity() - 1);
                 mCartAdapter.notifyItemChanged(position);
+                checkVisiblePayment();
+                updatePrice();
             }
 
             @Override
             public void delete(int position) {
                 Cart.getInstance().getCarts().remove(position);
                 mCartAdapter.notifyItemRemoved(position);
+                checkVisiblePayment();
+                updatePrice();
             }
         });
     }
+    private void checkVisiblePayment(){
+        if (Cart.getInstance().getCarts() == null || Cart.getInstance().getCarts().size() == 0){
+            mTvTitleTotal.setVisibility(View.GONE);
+            mTvPrice.setVisibility(View.GONE);
+            mBtnPayment.setVisibility(View.GONE);
+            mRecyclerView.setVisibility(View.GONE);
+        }else{
+            mTvTitleTotal.setVisibility(View.VISIBLE);
+            mTvPrice.setVisibility(View.VISIBLE);
+            mBtnPayment.setVisibility(View.VISIBLE);
+            mRecyclerView.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void updatePrice(){
+        NumberFormat formatter = new DecimalFormat("#,###");
+        mTvPrice.setText(formatter.format(Cart.getInstance().totalCart()) + " VNĐ");
+    }
+
 }
