@@ -26,7 +26,9 @@ import com.example.appsale28042021.interfaces.OnItemClickAdapter;
 import com.example.appsale28042021.model.Cart;
 import com.example.appsale28042021.model.ElementCart;
 import com.example.appsale28042021.model.Product;
+import com.example.appsale28042021.shared.AppCache;
 
+import java.util.Calendar;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -46,10 +48,16 @@ public class MainActivity extends AppCompatActivity {
 
         mRcvProduct = findViewById(R.id.recyclerviewProduct);
         mToolbar = findViewById(R.id.toolbarProduct);
+
+        if (AppCache.readFile(this) != null){
+            List<ElementCart> elementCartList = Cart.getInstance().tranFormStringToListElementCart(AppCache.readFile(this));
+            Cart.getInstance().setListCart(elementCartList);
+        }
+
+
         setSupportActionBar(mToolbar);
 
         mListProduct = Product.getMockListProduct();
-
 
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
@@ -61,11 +69,15 @@ public class MainActivity extends AppCompatActivity {
         mRcvProduct.setHasFixedSize(true);
         mRcvProduct.setAdapter(mProductAdapter);
 
+
+
+
         mProductAdapter.setOnItemClickAdapter(new OnItemClickAdapter() {
             @Override
             public void onClick(int position) {
                 Cart.getInstance().updateCart(mListProduct.get(position));
                 setUpBadge();
+                AppCache.createFile(Cart.getInstance().createJson(Cart.getInstance().getCarts()).toString(),MainActivity.this);
             }
         });
     }
@@ -142,5 +154,11 @@ public class MainActivity extends AppCompatActivity {
                 mRelativeBackgroundCount.setVisibility(View.GONE);
             }
         }
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        setUpBadge();
     }
 }

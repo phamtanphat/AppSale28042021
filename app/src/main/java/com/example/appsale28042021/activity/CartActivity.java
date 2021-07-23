@@ -8,12 +8,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.appsale28042021.R;
 import com.example.appsale28042021.adapter.CartAdapter;
 import com.example.appsale28042021.interfaces.OnItemClickCartAdapter;
 import com.example.appsale28042021.model.Cart;
 import com.example.appsale28042021.model.ElementCart;
+import com.example.appsale28042021.shared.AppCache;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -54,6 +56,16 @@ public class CartActivity extends AppCompatActivity {
             }
         });
 
+        mBtnPayment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AppCache.deleteFile(CartActivity.this);
+                Toast.makeText(CartActivity.this, "Thanh toán thành công!!", Toast.LENGTH_SHORT).show();
+                Cart.getInstance().setListCart(null);
+                finish();
+            }
+        });
+
 
         mListCart = Cart.getInstance().getCarts();
         mCartAdapter = new CartAdapter(mListCart);
@@ -70,6 +82,7 @@ public class CartActivity extends AppCompatActivity {
                 mCartAdapter.notifyItemChanged(position);
                 checkVisiblePayment();
                 updatePrice();
+                AppCache.createFile(Cart.getInstance().createJson(Cart.getInstance().getCarts()).toString(),CartActivity.this);
             }
 
             @Override
@@ -79,6 +92,7 @@ public class CartActivity extends AppCompatActivity {
                 mCartAdapter.notifyItemChanged(position);
                 checkVisiblePayment();
                 updatePrice();
+                AppCache.createFile(Cart.getInstance().createJson(Cart.getInstance().getCarts()).toString(),CartActivity.this);
             }
 
             @Override
@@ -87,6 +101,7 @@ public class CartActivity extends AppCompatActivity {
                 mCartAdapter.notifyItemRemoved(position);
                 checkVisiblePayment();
                 updatePrice();
+                AppCache.createFile(Cart.getInstance().createJson(Cart.getInstance().getCarts()).toString(),CartActivity.this);
             }
         });
     }
