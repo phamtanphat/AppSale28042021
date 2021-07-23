@@ -1,6 +1,7 @@
 package com.example.appsale28042021.adapter;
 
 import android.content.Context;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,8 +52,8 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         holder.tvName.setText(product.getName());
         NumberFormat formatter = new DecimalFormat("#,###");
         if (product.getSaleOf() > 0){
-            holder.tvPrice.setText(formatter.format((product.getPrice() * ((100 - product.getSaleOf()) / 100) )));
-            holder.tvPriceSale.setText("<del>abc</del>");
+            holder.tvPrice.setText(formatter.format((product.getPrice() * ((100 - product.getSaleOf()) / 100) )) + " Đ");
+            holder.tvPriceSale.setText(Html.fromHtml( "<del>"+formatter.format(product.getPrice())+" Đ</del>"+ " "  + String.valueOf(product.getSaleOf()).replace(".0"," %")));
         }else{
             holder.tvPrice.setText(formatter.format((product.getPrice())));
             holder.tvPriceSale.setVisibility(View.GONE);
